@@ -4,3 +4,7 @@
 # Build output
 build/
 site/
+
+# Loose files directly in media/ (originals, scratch); subfolders are kept
+/media/*
+!/media/*/
