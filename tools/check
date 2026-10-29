@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# tools/check: check topics against the content contract (spec/topic-types.md).
+#
+#   tools/check                      check every topic in docs/
+#   tools/check docs/a.md docs/b.md  check only these topics
+#
+# Uses Quarto's bundled Pandoc if Quarto is installed, otherwise Pandoc.
+# Exits 0 if everything passes, 1 if any problem was found.
+
+set -u
+
+root="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$root" || exit 2
+
+if command -v quarto >/dev/null 2>&1; then
+  pandoc_cmd=(quarto pandoc)
+elif command -v pandoc >/dev/null 2>&1; then
+  pandoc_cmd=(pandoc)
+else
+  echo "tools/check: Quarto isn't installed. Install it from https://quarto.org or with: brew install --cask quarto" >&2
+  exit 2
+fi
+
+# Topics to check: the arguments, or every .md file under docs/.
+if [ "$#" -gt 0 ]; then
+  files=("$@")
+else
+  files=()
+  while IFS= read -r f; do files+=("$f"); done < <(find docs -name '*.md' -type f | sort)
+fi
+
+if [ "${#files[@]}" -eq 0 ]; then
+  echo "tools/check: no topics found in docs/."
+  exit 0
+fi
+
+failed=0
+bad_topics=0
+
+for f in "${files[@]}"; do
+  if [ ! -f "$f" ]; then
+    echo "$f: file not found" >&2
+    failed=1; bad_topics=$((bad_topics + 1))
+    continue
+  fi
+  if ! "${pandoc_cmd[@]}" -f markdown-auto_identifiers -t native -o /dev/null \
+       --lua-filter tools/validate.lua "$f"; then
+    failed=1; bad_topics=$((bad_topics + 1))
+  fi
+done
+
+# U1: no two topics share an id. Always checked across all of docs/,
+# since a new topic can clash with one you didn't touch.
+dupes="$(
+  find docs -name '*.md' -type f | sort | while IFS= read -r f; do
+    awk -v file="$f" '
+      NR == 1 { if ($0 != "---") exit; next }
+      /^(---|\.\.\.)$/ { exit }
+      /^id:[ \t]*/ {
+        v = $0; sub(/^id:[ \t]*/, "", v); gsub(/["'\'' \t]/, "", v)
+        if (v != "") print v "\t" file
+      }' "$f"
+  done | sort | awk -F '\t' '
+    { n[$1]++; files[$1] = (n[$1] > 1) ? files[$1] ", " $2 : $2 }
+    END { for (id in n) if (n[id] > 1) print id "\t" files[id] }'
+)"
+
+if [ -n "$dupes" ]; then
+  failed=1
+  while IFS="$(printf '\t')" read -r id where; do
+    echo "[U1] The id \"$id\" is used by more than one topic: $where. Each topic needs its own id." >&2
+  done <<< "$dupes"
+fi
+
+count="${#files[@]}"
+if [ "$failed" -eq 0 ]; then
+  echo "Checked $count topic(s): all passed."
+  exit 0
+else
+  summary=""
+  [ "$bad_topics" -gt 0 ] && summary="problems in $bad_topics topic(s)"
+  if [ -n "$dupes" ]; then
+    [ -n "$summary" ] && summary="$summary, plus duplicate ids" || summary="duplicate ids"
+  fi
+  echo "Checked $count topic(s): $summary. See spec/topic-types.md for each rule." >&2
+  exit 1
+fi
