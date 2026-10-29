@@ -20,7 +20,7 @@ content needs.
 Text that goes with the screenshot on the right. A pair can hold
 paragraphs, headings, and lists, plus exactly one screenshot.
 
-![](media/chapter-slug/image-name.png){#fig:image-name alt="A phone screenshot of the screen, described top to bottom."}
+![](/media/chapter-slug/image-name.png){#fig:image-name alt="A phone screenshot of the screen, described top to bottom."}
 :::
 
 ::: note

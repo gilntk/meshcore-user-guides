@@ -7,7 +7,7 @@ every contributor, human or AI, and to every file in `docs/`.
 
 Terminology lives in a separate file, `wordlist.md`. Topic types, front
 matter, and the blocks you can use are defined in `spec/topic-types.md`,
-and `tools/check` enforces them.
+and `tools/validate-topic-files` enforces them.
 
 ## Files and structure
 
@@ -44,10 +44,14 @@ Images go in `media/<chapter-slug>/` and are inserted with an ID and alt
 text. Use lowercase, hyphenated file names that describe what's shown, never
 the capture date.
 
+Start every image and clip path with `/`, as in `/media/chapter-slug/image-name.png`.
+The leading slash means "from the top of the repo," so the path works from
+any topic file, in both the website and the PDF.
+
 Captions are optional. Decide chapter by chapter whether a caption adds
 something the surrounding heading and text don't, such as the key to an
 annotated screenshot. To leave one out, keep the square brackets empty:
-`![](media/chapter-slug/image-name.png){...}`. When a section leaves out
+`![](/media/chapter-slug/image-name.png){...}`. When a section leaves out
 captions, say why in an HTML comment at the top of the section.
 
 ### Alt text
@@ -86,7 +90,7 @@ outside its edge, with transparent space beyond it. Annotated screenshots
 with numbered callouts don't get the outline.
 
 ```
-![Caption sentence.](media/chapter-slug/image-name.png){#fig:image-name width=40% alt="Description of the screen."}
+![Caption sentence.](/media/chapter-slug/image-name.png){#fig:image-name width=40% alt="Description of the screen."}
 ```
 
 ### Looping videos
@@ -97,7 +101,7 @@ inside a `pair`. Put the description of the action in `alt`; the build
 makes it the video's accessible label.
 
 ```
-::: {.screen-loop src="media/chapter-slug/video-name_app-1.47.webm" alt="Description of the action."}
+::: {.screen-loop src="/media/chapter-slug/video-name_app-1.47.webm" alt="Description of the action."}
 :::
 ```
 

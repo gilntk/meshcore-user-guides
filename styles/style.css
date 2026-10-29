@@ -1,0 +1,63 @@
+/*
+style.css: web layout for the content contract's blocks.
+
+Layered over the Quarto theme set in _quarto.yml. Colors come from the
+theme's own variables (--bs-*), so the blocks follow whichever theme is
+chosen. Desktop only; there are no phone breakpoints.
+*/
+
+/* pair: text on the left (60%), one screenshot on the right (40%). */
+.pair {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 2rem;
+  align-items: start;
+  margin: 1.5rem 0 2rem;
+}
+
+.pair-text > :first-child {
+  margin-top: 0;
+}
+
+.pair-media figure,
+.pair-media .quarto-figure {
+  margin: 0;
+}
+
+.pair-media img {
+  width: 100%;
+  height: auto;
+}
+
+/* shortdesc: the topic's opening paragraph, from front matter. */
+.shortdesc {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Task blocks and callouts. */
+.prereq,
+.result,
+.note,
+.tip,
+.warning {
+  border-left: 4px solid var(--bs-secondary);
+  background: var(--bs-tertiary-bg);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0 1.5rem;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.prereq > :last-child,
+.result > :last-child,
+.note > :last-child,
+.tip > :last-child,
+.warning > :last-child {
+  margin-bottom: 0;
+}
+
+.prereq  { border-left-color: var(--bs-primary); }
+.result  { border-left-color: var(--bs-success); }
+.note    { border-left-color: var(--bs-info); }
+.tip     { border-left-color: var(--bs-success); }
+.warning { border-left-color: var(--bs-warning); }

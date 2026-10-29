@@ -5,7 +5,7 @@ The rules and their codes are in spec/topic-types.md. Each check below is
 labeled with the code it enforces, so the two stay in step. If you change a
 rule, change it in both places.
 
-Run it through tools/check rather than by hand. tools/check calls Pandoc
+Run it through tools/validate-topic-files rather than by hand. tools/validate-topic-files calls Pandoc
 like this, one topic at a time:
 
   pandoc -f markdown-auto_identifiers -t native -o /dev/null \
@@ -13,7 +13,7 @@ like this, one topic at a time:
 
 It writes no document. It prints each problem to stderr and exits with
 status 1 if it found any. (U1, unique IDs across topics, is checked by
-tools/check, since it needs every topic at once.)
+tools/validate-topic-files, since it needs every topic at once.)
 ]]
 
 if PANDOC_VERSION < { 3, 0 } then
@@ -57,7 +57,7 @@ local function topic_dir()
 end
 
 -- A src resolves relative to the topic's folder, or to the repo root
--- (where tools/check runs). A leading / means the repo root.
+-- (where tools/validate-topic-files runs). A leading / means the repo root.
 local function src_exists(src)
   if src:sub(1, 1) == "/" then return exists(src:sub(2)) end
   return exists(topic_dir() .. "/" .. src) or exists(src)

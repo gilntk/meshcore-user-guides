@@ -24,7 +24,7 @@ them. Rules: spec/topic-types.md. -->
 ::: pair
 1. A step that has a screenshot beside it.
 
-![](media/chapter-slug/image-name.png){#fig:image-name alt="A phone screenshot of the screen, described top to bottom."}
+![](/media/chapter-slug/image-name.png){#fig:image-name alt="A phone screenshot of the screen, described top to bottom."}
 :::
 
 1. A step without a screenshot.
@@ -36,7 +36,7 @@ them. Rules: spec/topic-types.md. -->
 :::: pair
 1. Tap **Add Channel**.
 
-::: {.screen-loop src="media/chapter-slug/clip-name_app-1.47.webm" alt="Description of the action."}
+::: {.screen-loop src="/media/chapter-slug/clip-name_app-1.47.webm" alt="Description of the action."}
 :::
 ::::
 

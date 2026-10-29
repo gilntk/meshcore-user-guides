@@ -1,0 +1,20 @@
+project:
+  type: book
+  output-dir: site
+
+book:
+  title: "MeshCore User Guide"
+  chapters:
+    - index.md
+    - docs/learn-the-ui.md
+
+# Chapter numbers are off until the chapter structure is settled.
+number-sections: false
+
+filters:
+  - filters/layout.lua
+
+format:
+  html:
+    theme: cosmo
+    css: styles/style.css

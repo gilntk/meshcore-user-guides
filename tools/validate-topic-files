@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# tools/check: check topics against the content contract (spec/topic-types.md).
+# tools/validate-topic-files: check topics against the content contract (spec/topic-types.md).
 #
-#   tools/check                      check every topic in docs/
-#   tools/check docs/a.md docs/b.md  check only these topics
+#   tools/validate-topic-files                      check every topic in docs/
+#   tools/validate-topic-files docs/a.md docs/b.md  check only these topics
 #
 # Uses Quarto's bundled Pandoc if Quarto is installed, otherwise Pandoc.
 # Exits 0 if everything passes, 1 if any problem was found.
@@ -17,7 +17,7 @@ if command -v quarto >/dev/null 2>&1; then
 elif command -v pandoc >/dev/null 2>&1; then
   pandoc_cmd=(pandoc)
 else
-  echo "tools/check: Quarto isn't installed. Install it from https://quarto.org or with: brew install --cask quarto" >&2
+  echo "tools/validate-topic-files: Quarto isn't installed. Install it from https://quarto.org or with: brew install --cask quarto" >&2
   exit 2
 fi
 
@@ -30,7 +30,7 @@ else
 fi
 
 if [ "${#files[@]}" -eq 0 ]; then
-  echo "tools/check: no topics found in docs/."
+  echo "tools/validate-topic-files: no topics found in docs/."
   exit 0
 fi
 

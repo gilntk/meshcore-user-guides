@@ -91,7 +91,7 @@ convention.
 ::: pair
 The Contacts screen lists your contacts.
 
-![](media/contacts/contacts-screen.png){#fig:contacts-screen alt="A phone screenshot of the Contacts screen..."}
+![](/media/contacts/contacts-screen.png){#fig:contacts-screen alt="A phone screenshot of the Contacts screen..."}
 :::
 ```
 
@@ -102,7 +102,7 @@ don't set a `width` on the image.
 ### screen-loop
 
 ```markdown
-::: {.screen-loop src="media/channels/channels-add_app-1.47.webm" alt="The Add Channel menu opening, then Create a Private Channel being tapped."}
+::: {.screen-loop src="/media/channels/channels-add_app-1.47.webm" alt="The Add Channel menu opening, then Create a Private Channel being tapped."}
 :::
 ```
 
@@ -134,8 +134,8 @@ the block is its caption.
 From the top of the repo:
 
 ```sh
-tools/check                         # check every topic in docs/
-tools/check docs/some-topic.md      # check one topic
+tools/validate-topic-files                      # check every topic in docs/
+tools/validate-topic-files docs/some-topic.md   # check one topic
 ```
 
 To re-check a topic each time you save it, in any editor, run a watch
@@ -143,7 +143,7 @@ command in a terminal window (install `entr` first with
 `brew install entr`):
 
 ```sh
-find docs -name '*.md' | entr -c tools/check /_
+find docs -name '*.md' | entr -c tools/validate-topic-files /_
 ```
 
 The same check runs when you commit, on every pull request, and before
